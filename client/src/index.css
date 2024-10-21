@@ -1,4 +1,3 @@
-
 :root {
   font-family: Inter, system-ui, Avenir, Helvetica, Arial, sans-serif;
   line-height: 1.5;
@@ -9,8 +8,21 @@
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
 }
+
 body {
   background-color: var(--mainBg) !important;
+}
+
+body::before {
+  content: "";
+  position: absolute;
+  right: 0;
+  top: 0;
+  width: 100%;
+  height: 100%;
+  opacity: 0.2;
+  background-image: repeating-radial-gradient(circle at 0 0, transparent 0, #e5e5f7 34px), repeating-linear-gradient(#fff, #bebebe);
+  z-index: 0;
 }
 
 h1 {

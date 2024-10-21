@@ -4,8 +4,8 @@ import "./App.css";
 import "./assets/fonts/ERPyb/ERPyb.css";
 import "./assets/fonts/newiconpack/icon.css";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
-import SearchPage from "./components/pages/search/search.page";
 import { Provider } from "react-redux";
+import SearchPage from "./pages/search/search.page";
 
 import fa from "rsuite/locales/fa_IR";
 import store from "./redux/store";

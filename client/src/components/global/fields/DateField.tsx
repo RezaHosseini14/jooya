@@ -12,8 +12,6 @@ type DateFieldType = {
 };
 
 function DateField({ title, value, onChange, onClear }: DateFieldType) {
-  console.log(value);
-
   return (
     <div className="flex flex-col">
       <label className="font-semibold text-base">{title}</label>

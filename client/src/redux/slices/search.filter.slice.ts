@@ -31,8 +31,6 @@ const initialState: SearchFilterReduxSliceType = {
     startCreationDate: null,
     endCreationDate: null,
     size: null,
-    // startCreationDate: new DateObject().subtract(7, "days").valueOf(),
-    // endCreationDate: new DateObject().valueOf(),
   },
   additionalData: {
     cSize: 1000000,
@@ -47,7 +45,7 @@ export const searchFilterSlice = createSlice({
     SET_FORMVALUE: (state, action: PayloadAction<any>) => {
       state.formValue = action.payload;
     },
-    SET_FORMVALUE_ITEM: (state, action: PayloadAction<{ key: keyof SearchFilterFormValueDataModel; value: null | number | string[] }>) => {
+    SET_FORMVALUE_ITEM: (state, action: PayloadAction<{ key: keyof SearchFilterFormValueDataModel; value: null | number | string[] | string }>) => {
       //@ts-ignore
       state.formValue[action.payload.key] = action.payload.value;
     },
@@ -61,6 +59,22 @@ export const searchFilterSlice = createSlice({
     },
   },
 });
+
+export const areFiltersApplied = (state: SearchFilterReduxSliceType): boolean => {
+  const { formValue } = state;
+
+  return (
+    formValue.should.length > 0 ||
+    formValue.mustNot.length > 0 ||
+    formValue.must.length > 0 ||
+    formValue.extension.length > 0 ||
+    formValue.contentType.length > 0 ||
+    formValue.sentence.length > 0 ||
+    formValue.startCreationDate !== null ||
+    formValue.endCreationDate !== null ||
+    formValue.size !== null
+  );
+};
 
 export const { SET_FORMVALUE, SET_FORMVALUE_ITEM, SET_ADDITIONALDATA_ITEM, RESET_FILTERS } = searchFilterSlice.actions;
 

@@ -1,6 +1,5 @@
-import { Button, Drawer, Form, Schema, SelectPicker, TagInput } from "rsuite";
+import { Button, Drawer, Form, Schema, SelectPicker } from "rsuite";
 import TextField from "./global/fields/TextField";
-import SelectField from "./global/fields/SelectField";
 import DateField from "./global/fields/DateField";
 import { DateObject } from "react-multi-date-picker";
 import { useDispatch, useSelector } from "react-redux";
@@ -10,7 +9,7 @@ import TagField from "./global/fields/TagField";
 import { ext } from "../jsons/ext";
 import { mimeTypesList } from "../jsons/mimeTypesList";
 import TagSelectField from "./global/fields/TagSelectField";
-import { useEffect, useState } from "react";
+import { useEffect } from "react";
 import { sizeList } from "../jsons/sizeList";
 
 const { StringType, NumberType } = Schema.Types;
@@ -49,18 +48,6 @@ function SearchFilter({ open, setOpen, handleClick }: { open: boolean; setOpen: 
   const handleClearFilter = () => {
     dispatch(RESET_FILTERS());
   };
-  // const handleStartCreationDate = (dateObjects: DateObject | null) => {
-  //   if (dateObjects) {
-  //     let startCreationDate: number = dateObjects?.valueOf();
-  //     dispatch(SET_FORMVALUE_ITEM({ key: "startCreationDate", value: startCreationDate }));
-  //   }
-  // };
-  // const handleEndCreationDate = (dateObjects: DateObject | null) => {
-  //   if (dateObjects) {
-  //     let endCreationDate: number = dateObjects?.valueOf();
-  //     dispatch(SET_FORMVALUE_ITEM({ key: "endCreationDate", value: endCreationDate }));
-  //   }
-  // };
 
   const handleClear = () => {
     dispatch(SET_FORMVALUE_ITEM({ key: "startCreationDate", value: null }));
@@ -68,9 +55,14 @@ function SearchFilter({ open, setOpen, handleClick }: { open: boolean; setOpen: 
   };
 
   useEffect(() => {
-    dispatch(SET_FORMVALUE_ITEM({ key: "size", value: additionalData.cSize * parseInt(additionalData.sizeInput) }));
-  }, [additionalData.cSize, additionalData.sizeInput]);
+    const parsedSizeInput = parseInt(additionalData?.sizeInput);
 
+    if (!isNaN(parsedSizeInput) && additionalData?.cSize) {
+      const calculatedSize = additionalData.cSize * parsedSizeInput;
+
+      dispatch(SET_FORMVALUE_ITEM({ key: "size", value: calculatedSize }));
+    }
+  }, [additionalData.cSize, additionalData.sizeInput, dispatch]);
   return (
     <Drawer open={open} placement="left" size="sm" onClose={() => setOpen(false)}>
       <Drawer.Header>
@@ -86,7 +78,6 @@ function SearchFilter({ open, setOpen, handleClick }: { open: boolean; setOpen: 
               onChange={handleCreationDate}
               onClear={handleClear}
             />
-            {/* <DateField name="asfsaf" title="تاریخ پایان ایجاد" value={formValue.endCreationDate} onChange={handleEndCreationDate} /> */}
             <div className="flex gap-4 items-end">
               <TextField
                 name="sizeInput"
@@ -137,43 +128,23 @@ function SearchFilter({ open, setOpen, handleClick }: { open: boolean; setOpen: 
               trigger={["Enter", "Space"]}
             />
 
-            {/* <TagField
-              name="extension"
-              title="پسوند"
-              value={formValue?.extension}
-              onChange={(input) => dispatch(SET_FORMVALUE_ITEM({ key: "extension", value: input }))}
-            /> */}
-
             <TagSelectField
               name="extension"
               title="پسوند"
-              // value={formValue?.extension?.length > 0 ? formValue.extension : null}
               value={formValue?.extension}
               data={ext}
               onChange={(input) => dispatch(SET_FORMVALUE_ITEM({ key: "extension", value: input }))}
-              // onChange={(input) => dispatch(SET_FORMVALUE_ITEM({ key: "extension", value: input ? input : null }))}
               creatable={true}
             />
 
             <TagSelectField
               name="contentType"
               title="نوع محتوا"
-              // value={formValue?.extension?.length > 0 ? formValue.extension : null}
               value={formValue?.contentType}
               data={mimeTypesList}
               onChange={(input) => dispatch(SET_FORMVALUE_ITEM({ key: "contentType", value: input }))}
-              // onChange={(input) => dispatch(SET_FORMVALUE_ITEM({ key: "extension", value: input ? input : null }))}
               creatable={true}
             />
-
-            {/* <SelectField
-              name="contentType"
-              title="نوع محتوا"
-              value={formValue?.contentType?.length > 0 ? formValue?.contentType[0] : null}
-              data={mimeTypesList}
-              virtualized={true}
-              onChange={(input) => dispatch(SET_FORMVALUE_ITEM({ key: "contentType", value: input ? [input] : null }))}
-            /> */}
           </div>
         </Form>
         <div className="flex items-center gap-4">

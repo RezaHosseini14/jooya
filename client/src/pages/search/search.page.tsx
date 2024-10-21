@@ -1,20 +1,19 @@
-import { useMutation } from "@tanstack/react-query";
 import { useState } from "react";
-import ResultsBox from "../../ResultsBox";
-import ResultModal from "../../ResultModal";
-import SearchFilter from "../../SearchFilter";
-import { highlightService, resultByIdService, serachService } from "../../../services/search.service";
-import SearchBox from "../../SearchBox";
-import ResultSidebar from "../../ResultSidebar";
-import { RootState } from "../../../redux/store";
 import { useDispatch, useSelector } from "react-redux";
-import { SET_FORMVALUE_ITEM } from "../../../redux/slices/search.filter.slice";
+import { useMutation } from "@tanstack/react-query";
+import ResultsBox from "../../components/ResultsBox";
+import ResultModal from "../../components/ResultModal";
+import SearchFilter from "../../components/SearchFilter";
+import SearchBox from "../../components/SearchBox";
+import ResultSidebar from "../../components/ResultSidebar";
+import { highlightService, resultByIdService, serachService } from "../../services/search.service";
+import { RootState } from "../../redux/store";
+import { SET_FORMVALUE_ITEM } from "../../redux/slices/search.filter.slice";
 
 function SearchPage() {
   const { formValue } = useSelector((state: RootState) => state.searchFilter);
   const dispatch = useDispatch();
 
-  // const [search, setSearch] = useState<string>("");
   const [fill, setFill] = useState<boolean>(false);
   const [open, setOpen] = useState<boolean>(false);
   const [openModal, setOpenModal] = useState<boolean>(false);
@@ -66,10 +65,8 @@ function SearchPage() {
 
   const handleClick = (e: React.MouseEvent<HTMLButtonElement>) => {
     e.preventDefault();
-    // if (formValue.should.length > 0) {
     setFill(true);
     mutateAsync();
-    // }
   };
 
   const searchFilter = () => {
