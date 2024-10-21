@@ -1,0 +1,30 @@
+
+:root {
+  font-family: Inter, system-ui, Avenir, Helvetica, Arial, sans-serif;
+  line-height: 1.5;
+  font-weight: 400;
+
+  font-synthesis: none;
+  text-rendering: optimizeLegibility;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+body {
+  background-color: var(--mainBg) !important;
+}
+
+h1 {
+  font-size: 3.2em;
+  line-height: 1.1;
+}
+
+.rs-table-cell-header .rs-table-cell-content {
+  font-size: 1.1rem;
+  font-weight: 500;
+}
+:root {
+  --mainColor: #3f72af;
+  --mainColorDark: #112d4e;
+  --mainColorLight: #dbe2ef;
+  --mainBg: rgb(248, 249, 250);
+}

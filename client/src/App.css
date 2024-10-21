@@ -1,0 +1,49 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+.search-result-highlight {
+  background-color: rgb(230, 230, 63);
+  border-radius: 0.5rem;
+  padding-top: 0.3rem;
+}
+.direction-ltr {
+  direction: ltr;
+}
+
+.rs-pagination-btn[title="قبلی"],
+.rs-pagination-btn[title="بعدی"] {
+  transform: scale(-1);
+}
+
+.rmdp-container {
+  width: 100%;
+}
+
+.rmdp-input {
+  border-radius: 6px !important;
+  border: 1px solid var(--rs-border-primary) !important;
+  transition: border-color 0.15s ease-in-out;
+}
+
+.rmdp-input:hover {
+  border-color: var(--rs-input-focus-border) !important;
+}
+.rmdp-input:focus {
+  outline: 3px solid var(--rs-color-focus-ring) !important;
+  border-color: var(--rs-input-focus-border) !important;
+}
+
+.rs-picker-textbox {
+  height: 100%;
+  overflow-y: auto;
+  scrollbar-width: none;
+}
+
+.rs-picker-textbox::-webkit-scrollbar {
+  display: none;
+}
+
+.rs-picker-toggle {
+  height: 100%;
+}
