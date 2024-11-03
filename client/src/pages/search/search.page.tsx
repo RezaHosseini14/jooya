@@ -136,7 +136,6 @@ function SearchPage() {
           </div>
         </div>
       </div>
-
       <SearchFilter open={open} setOpen={setOpen} handleClick={handleClick} />
       <ResultModal
         openModal={openModal}
