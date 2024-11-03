@@ -30,9 +30,9 @@ app.post("/api/v1/search/get-content", async (req, res) => {
     res.status(error.status ? error.status : 500).send(error.message);
   }
 });
-app.post("/api/v1/search/highlight-content", async (req, res) => {
+app.post("/api/v1/search/hightlight-content", async (req, res) => {
   try {
-    const response = await axios.post(`${constants.services.searchApi}/api/v1/search/highlight-content`, req.body, {
+    const response = await axios.post(`${constants.services.searchApi}/api/v1/search/hightlight-content`, req.body, {
       headers: { "Content-Type": "application/json" },
     });
     res.send(response.data);

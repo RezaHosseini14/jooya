@@ -8,10 +8,13 @@ import SearchBox from "../../components/SearchBox";
 import ResultSidebar from "../../components/ResultSidebar";
 import { highlightService, resultByIdService, serachService } from "../../services/search.service";
 import { RootState } from "../../redux/store";
-import { SET_FORMVALUE_ITEM } from "../../redux/slices/search.filter.slice";
+import { areFiltersApplied, SET_FORMVALUE_ITEM } from "../../redux/slices/search.filter.slice";
+import toast from "react-hot-toast";
 
 function SearchPage() {
-  const { formValue } = useSelector((state: RootState) => state.searchFilter);
+  const { formValue, prevFormValue } = useSelector((state: RootState) => state.searchFilter);
+  const filtersApplied = useSelector((state: RootState) => areFiltersApplied(state.searchFilter));
+
   const dispatch = useDispatch();
 
   const [fill, setFill] = useState<boolean>(false);
@@ -52,24 +55,36 @@ function SearchPage() {
     mutationFn: (id: string) =>
       highlightService({
         id: id,
+        should: formValue.should.length > 0 ? formValue.should : prevFormValue.should,
+        mustNot: formValue.mustNot.length > 0 ? formValue.mustNot : prevFormValue.mustNot,
+        must: formValue.must.length > 0 ? formValue.must : prevFormValue.must,
+        sentence: formValue.sentence.length > 0 ? formValue.sentence : prevFormValue.sentence,
       }),
   });
+
+  const handleSearch = () => {
+    if (filtersApplied) {
+      setFill(true);
+      mutateAsync();
+    } else {
+      toast.error("تعداد کاراکتر مورد نظر باید بیشتر از یک حرف باشد");
+      setFill(false);
+    }
+  };
 
   const handleInputKeyDown = (e: any) => {
     if (e.key === "Enter" || e.key === "NumEnter") {
       e.preventDefault();
-      setFill(true);
-      mutateAsync();
+      handleSearch();
     }
   };
 
   const handleClick = (e: React.MouseEvent<HTMLButtonElement>) => {
     e.preventDefault();
-    setFill(true);
-    mutateAsync();
+    handleSearch();
   };
 
-  const searchFilter = () => {
+  const showSearchFilter = () => {
     setOpen(true);
   };
 
@@ -99,7 +114,7 @@ function SearchPage() {
         <SearchBox
           fill={fill}
           search={formValue.should.join(" ")}
-          searchFilter={searchFilter}
+          searchFilter={showSearchFilter}
           handleClick={handleClick}
           onInputChange={(input: string) => {
             dispatch(SET_FORMVALUE_ITEM({ key: "should", value: input === "" ? [] : input.split(" ") }));
@@ -128,7 +143,7 @@ function SearchPage() {
         handleClose={handleClose}
         loading={resultIsPending}
         data={resultData?.data}
-        highlightData={highlightData?.data}
+        highlightData={highlightData?.data?.content ? highlightData?.data?.content : []}
         highlightLoading={highlightIsPending}
       />
     </>

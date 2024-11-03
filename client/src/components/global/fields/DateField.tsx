@@ -17,6 +17,7 @@ function DateField({ title, value, onChange, onClear }: DateFieldType) {
       <label className="font-semibold text-base">{title}</label>
       <div className="relative flex">
         <DatePicker
+          className="rmdp-mobile"
           range
           rangeHover
           style={{ height: "2.5rem", width: "100%" }}

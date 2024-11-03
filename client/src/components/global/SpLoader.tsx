@@ -3,7 +3,7 @@ import { TypeAttributes } from "rsuite/esm/internals/types";
 
 function SpLoader({ size }: { size?: TypeAttributes.Size }) {
   return (
-    <div className="grid place-content-center">
+    <div className="grid place-content-center h-full">
       <Loader size={size} center content="درحال بارگذاری ..." vertical />
     </div>
   );

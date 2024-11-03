@@ -3,7 +3,7 @@ import TextField from "./global/fields/TextField";
 import DateField from "./global/fields/DateField";
 import { DateObject } from "react-multi-date-picker";
 import { useDispatch, useSelector } from "react-redux";
-import { RESET_FILTERS, SET_ADDITIONALDATA_ITEM, SET_FORMVALUE_ITEM } from "../redux/slices/search.filter.slice";
+import { RESET_FILTERS, SET_ADDITIONALDATA_ITEM, SET_FORMVALUE_ITEM, SET_PREV_FORMVALUE } from "../redux/slices/search.filter.slice";
 import { RootState } from "../redux/store";
 import TagField from "./global/fields/TagField";
 import { ext } from "../jsons/ext";
@@ -46,6 +46,14 @@ function SearchFilter({ open, setOpen, handleClick }: { open: boolean; setOpen: 
   };
 
   const handleClearFilter = () => {
+    dispatch(
+      SET_PREV_FORMVALUE({
+        should: formValue.should,
+        mustNot: formValue.mustNot,
+        must: formValue.must,
+        sentence: formValue.sentence,
+      })
+    );
     dispatch(RESET_FILTERS());
   };
 
@@ -63,6 +71,7 @@ function SearchFilter({ open, setOpen, handleClick }: { open: boolean; setOpen: 
       dispatch(SET_FORMVALUE_ITEM({ key: "size", value: calculatedSize }));
     }
   }, [additionalData.cSize, additionalData.sizeInput, dispatch]);
+
   return (
     <Drawer open={open} placement="left" size="sm" onClose={() => setOpen(false)}>
       <Drawer.Header>
@@ -101,14 +110,21 @@ function SearchFilter({ open, setOpen, handleClick }: { open: boolean; setOpen: 
               name="sentence"
               title="شامل تمامی عبارات"
               value={formValue.sentence}
-              onChange={(input) => dispatch(SET_FORMVALUE_ITEM({ key: "sentence", value: input }))}
+              onChange={(input) => {
+                input.some((item) => item.length > 1)
+                  ? dispatch(SET_FORMVALUE_ITEM({ key: "sentence", value: input }))
+                  : dispatch(SET_FORMVALUE_ITEM({ key: "sentence", value: [] }));
+              }}
             />
-
             <TagField
               name="should"
               title="شامل هر یک از کلمات"
               value={formValue.should}
-              onChange={(input) => dispatch(SET_FORMVALUE_ITEM({ key: "should", value: input }))}
+              onChange={(input) => {
+                input.some((item) => item.length > 1)
+                  ? dispatch(SET_FORMVALUE_ITEM({ key: "should", value: input }))
+                  : dispatch(SET_FORMVALUE_ITEM({ key: "should", value: [] }));
+              }}
               trigger={["Enter", "Space"]}
             />
 
@@ -116,7 +132,11 @@ function SearchFilter({ open, setOpen, handleClick }: { open: boolean; setOpen: 
               name="mustNot"
               title="فاقد هیچ یک از کلمات"
               value={formValue.mustNot}
-              onChange={(input) => dispatch(SET_FORMVALUE_ITEM({ key: "mustNot", value: input }))}
+              onChange={(input) => {
+                input.some((item) => item.length > 1)
+                  ? dispatch(SET_FORMVALUE_ITEM({ key: "mustNot", value: input }))
+                  : dispatch(SET_FORMVALUE_ITEM({ key: "mustNot", value: [] }));
+              }}
               trigger={["Enter", "Space"]}
             />
 
@@ -124,7 +144,11 @@ function SearchFilter({ open, setOpen, handleClick }: { open: boolean; setOpen: 
               name="must"
               title="شامل تمامی کلمات"
               value={formValue.must}
-              onChange={(input) => dispatch(SET_FORMVALUE_ITEM({ key: "must", value: input }))}
+              onChange={(input) => {
+                input.some((item) => item.length > 1)
+                  ? dispatch(SET_FORMVALUE_ITEM({ key: "must", value: input }))
+                  : dispatch(SET_FORMVALUE_ITEM({ key: "must", value: [] }));
+              }}
               trigger={["Enter", "Space"]}
             />
 

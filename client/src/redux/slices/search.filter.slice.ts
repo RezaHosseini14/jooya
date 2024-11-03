@@ -1,5 +1,4 @@
 import { PayloadAction, createSlice } from "@reduxjs/toolkit";
-import { DateObject } from "react-multi-date-picker";
 type SearchFilterFormValueDataModel = {
   should: string[];
   mustNot: string[];
@@ -11,12 +10,19 @@ type SearchFilterFormValueDataModel = {
   endCreationDate: null | number;
   size: null | number;
 };
+type SearchFilterPrevFormValueDataModel = {
+  should: string[];
+  mustNot: string[];
+  must: string[];
+  sentence: string[];
+};
 type SearchFilterAdditionalDataeDataModel = {
   cSize: number;
   sizeInput: string;
 };
 type SearchFilterReduxSliceType = {
   formValue: SearchFilterFormValueDataModel;
+  prevFormValue: SearchFilterPrevFormValueDataModel;
   additionalData: SearchFilterAdditionalDataeDataModel;
 };
 
@@ -31,6 +37,12 @@ const initialState: SearchFilterReduxSliceType = {
     startCreationDate: null,
     endCreationDate: null,
     size: null,
+  },
+  prevFormValue: {
+    should: [],
+    mustNot: [],
+    must: [],
+    sentence: [],
   },
   additionalData: {
     cSize: 1000000,
@@ -57,6 +69,9 @@ export const searchFilterSlice = createSlice({
       state.formValue = initialState.formValue;
       state.additionalData = initialState.additionalData;
     },
+    SET_PREV_FORMVALUE: (state, action: PayloadAction<any>) => {
+      state.prevFormValue = action.payload;
+    },
   },
 });
 
@@ -64,7 +79,7 @@ export const areFiltersApplied = (state: SearchFilterReduxSliceType): boolean =>
   const { formValue } = state;
 
   return (
-    formValue.should.length > 0 ||
+    (formValue.should.length > 0 && formValue.should.some((item) => item.length > 1)) ||
     formValue.mustNot.length > 0 ||
     formValue.must.length > 0 ||
     formValue.extension.length > 0 ||
@@ -76,6 +91,6 @@ export const areFiltersApplied = (state: SearchFilterReduxSliceType): boolean =>
   );
 };
 
-export const { SET_FORMVALUE, SET_FORMVALUE_ITEM, SET_ADDITIONALDATA_ITEM, RESET_FILTERS } = searchFilterSlice.actions;
+export const { SET_FORMVALUE, SET_FORMVALUE_ITEM, SET_ADDITIONALDATA_ITEM, RESET_FILTERS, SET_PREV_FORMVALUE } = searchFilterSlice.actions;
 
 export default searchFilterSlice.reducer;

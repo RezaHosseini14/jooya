@@ -9,5 +9,5 @@ export const resultByIdService = (data: any) => {
 };
 
 export const highlightService = (data: any) => {
-  return http.post("/v1/search/highlight-content", data);
+  return http.post("/v1/search/hightlight-content", data);
 };

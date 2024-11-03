@@ -17,7 +17,7 @@ function SearchBox({ fill, search, searchFilter, handleClick, onInputChange, onI
             onKeyDown={onInputKeyDown}
           />
 
-          <div className=" absolute right-2 top-1/2 -translate-y-1/2">
+          <div className=" absolute right-2 top-1/2 -translate-y-1/2 h-[1.4rem]">
             <button className="relative" type="button" onClick={searchFilter}>
               {filtersApplied ? <div className="absolute bg-red-500 rounded-xl size-2 top-0 right-0"></div> : <></>}
 

@@ -5,8 +5,9 @@
 .search-result-highlight {
   background-color: rgb(230, 230, 63);
   border-radius: 0.5rem;
-  padding-top: 0.3rem;
+  padding: .01rem .2rem;
 }
+
 .direction-ltr {
   direction: ltr;
 }
